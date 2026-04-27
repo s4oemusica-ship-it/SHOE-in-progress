@@ -512,6 +512,12 @@
     <footer><p>&copy; 2026 SHOE</p></footer>
 
     <script>
+        // --- ブラウザのスクロール記憶を無効化し、常に一番上から表示する ---
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+
         function updateDynamicLine() {
             const path = document.getElementById('dynamicPath');
             const layer = document.getElementById('dynamicLineLayer');
