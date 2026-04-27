@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SHOE | VOCALOP / GUITARIST</title>
-    <!-- Google Fonts: Jost for modern typography, Noto Serif JP for elegant Japanese text -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;700&family=Noto+Serif+JP:wght@200;300&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -30,7 +30,7 @@
             position: relative;
         }
 
-        /* --- 1. 背景：サムネイルを繋ぐダイナミックな一本線 --- */
+        /* --- 背景：サムネイルを繋ぐダイナミックな一本線 --- */
         #dynamicLineLayer {
             position: absolute;
             top: 0;
@@ -40,7 +40,7 @@
             z-index: 1;
         }
 
-        /* --- 2. 背景：マウス追従の発光線 (Canvas) --- */
+        /* --- 背景：マウス追従の線 (Canvas) --- */
         #trailCanvas {
             position: fixed;
             top: 0;
@@ -160,7 +160,8 @@
             font-family: 'Noto Serif JP', serif;
             font-weight: 300;
             font-size: 1.3rem;
-            color: var(--secondary-color);
+            color: var(--text-color);
+            opacity: 0.7;
             letter-spacing: 1.2rem;
             margin-left: 1.2rem;
             margin-bottom: 2rem;
@@ -352,11 +353,6 @@
             backdrop-filter: blur(5px);
         }
 
-        /* --- Contact --- */
-        #contact {
-            padding-top: 15vh;
-        }
-
         /* --- Footer --- */
         footer {
             padding: 6rem 2rem;
@@ -389,6 +385,7 @@
         </svg>
     </div>
     
+    <!-- 2. 背景レイヤー: マウス追従のデジタルライン (Canvas) -->
     <canvas id="trailCanvas"></canvas>
 
     <nav>
@@ -402,7 +399,7 @@
 
     <header>
         <div class="hero-bg-container" id="heroIcon">
-            <!-- フォルダ名を Bounces/ に修正しました -->
+            <!-- フォルダ名を Bounces/ に設定 -->
             <img src="Bounces/icon2.jpg" alt="SHOE Background Icon" class="hero-bg-image hero-animate" onerror="this.style.display='none'; document.getElementById('svg-fallback').style.display='block';">
             <svg id="svg-fallback" class="hero-animate" viewBox="0 0 200 200" style="display:none; width: 100%; height: auto; max-width: 350px; filter: drop-shadow(0 0 15px rgba(255,255,255,0.3));">
                 <path d="M 80,45 L 120,35" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none" />
@@ -412,7 +409,7 @@
         </div>
         
         <div class="hero-content">
-            <!-- フォルダ名を Bounces/ 、拡張子を .jpg に修正しました -->
+            <!-- プロフィールアイコンのパスを Bounces/icon1.jpg に設定 -->
             <img src="Bounces/icon1.jpg" alt="SHOE Profile" class="profile-icon hero-animate delay-1" onerror="this.src='https://ui-avatars.com/api/?name=SH&background=050505&color=00e5ff&size=150'; this.onerror=null;">
             <h1 class="hero-title hero-animate delay-2">SHOE</h1>
             <p class="hero-furigana hero-animate delay-3">シュウ</p>
@@ -491,6 +488,7 @@
     <footer><p>&copy; 2024 SHOE. VOCALOP / GUITARIST</p></footer>
 
     <script>
+        // --- 1. サムネイルを繋ぐダイナミック線の生成 ---
         function updateDynamicLine() {
             const path = document.getElementById('dynamicPath');
             const layer = document.getElementById('dynamicLineLayer');
@@ -516,10 +514,14 @@
             path.setAttribute('d', d);
         }
 
+        // --- スクロール連動処理 ---
         window.addEventListener('scroll', () => {
             const docHeight = document.documentElement.scrollHeight;
             const scrollY = window.scrollY;
-            document.getElementById('clipRect').setAttribute('height', (scrollY / (docHeight - window.innerHeight)) * docHeight);
+            const clipRect = document.getElementById('clipRect');
+            if (clipRect) {
+                clipRect.setAttribute('height', (scrollY / (docHeight - window.innerHeight)) * docHeight);
+            }
             const contact = document.getElementById('contact');
             if (contact) {
                 const rect = contact.getBoundingClientRect();
@@ -529,23 +531,64 @@
             }
         });
 
+        // --- 2. マウス追従 デジタルライン (Canvas) ---
         const canvas = document.getElementById('trailCanvas');
         const ctx = canvas.getContext('2d');
         let points = [];
-        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; updateDynamicLine(); });
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        window.addEventListener('mousemove', e => { points.push({x:e.clientX, y:e.clientY, a:0}); if(points.length>15) points.shift(); });
+        const MAX_POINTS = 100;
+        const MAX_AGE = 80;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function addPoint(x, y) {
+            points.push({ x, y, age: 0, seed: Math.random() }); 
+            if (points.length > MAX_POINTS) points.shift();
+        }
+
+        window.addEventListener('mousemove', e => addPoint(e.clientX, e.clientY));
+        window.addEventListener('touchmove', e => {
+            const touch = e.touches[0];
+            addPoint(touch.clientX, touch.clientY);
+        });
 
         function animateTrail() {
-            ctx.clearRect(0,0,canvas.width,canvas.height);
-            if(points.length>1){
-                ctx.beginPath(); ctx.moveTo(points[0].x, points[0].y);
-                ctx.strokeStyle='#fff'; ctx.shadowColor='#fff'; ctx.shadowBlur=20; ctx.lineWidth=1.5;
-                for(let i=1;i<points.length;i++) ctx.lineTo(points[i].x, points[i].y);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (points.length > 1) {
+                ctx.save();
+                ctx.lineWidth = 2;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = '#fff';
+                ctx.strokeStyle = '#fff';
+                ctx.beginPath();
+                ctx.moveTo(points[0].x, points[0].y);
+                for (let i = 1; i < points.length; i++) {
+                    const p = points[i];
+                    const alpha = 1 - (p.age / MAX_AGE);
+                    if (p.seed > 0.15) { ctx.lineTo(p.x, p.y); } else { ctx.moveTo(p.x, p.y); }
+                    ctx.globalAlpha = alpha * 0.5;
+                }
                 ctx.stroke();
+                ctx.lineWidth = 1;
+                ctx.shadowBlur = 0;
+                ctx.globalAlpha = 0.8;
+                ctx.beginPath();
+                ctx.moveTo(points[0].x, points[0].y);
+                for (let i = 1; i < points.length; i++) {
+                    const p = points[i];
+                    const alpha = 1 - (p.age / MAX_AGE);
+                    if (Math.sin(i * 0.5 + p.seed * 10) > -0.7) { ctx.lineTo(p.x, p.y); } else { ctx.moveTo(p.x, p.y); }
+                    ctx.globalAlpha = alpha;
+                }
+                ctx.stroke();
+                ctx.restore();
             }
-            points.forEach(p=>p.a++);
-            if(points.length>0 && points[0].a>10) points.shift();
+            points.forEach(p => p.age++);
+            points = points.filter(p => p.age < MAX_AGE);
             requestAnimationFrame(animateTrail);
         }
         animateTrail();
