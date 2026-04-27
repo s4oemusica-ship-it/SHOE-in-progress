@@ -30,7 +30,7 @@
             position: relative;
         }
 
-        /* --- 背景：サムネイルを繋ぐダイナミックな一本線 --- */
+        /* --- 1. 背景：サムネイルを繋ぐダイナミックな一本線 --- */
         #dynamicLineLayer {
             position: absolute;
             top: 0;
@@ -40,7 +40,7 @@
             z-index: 1;
         }
 
-        /* --- 背景：マウス追従の発光線 (Canvas) --- */
+        /* --- 2. 背景：マウス追従の発光線 (Canvas) --- */
         #trailCanvas {
             position: fixed;
             top: 0;
@@ -352,6 +352,11 @@
             backdrop-filter: blur(5px);
         }
 
+        /* --- Contact --- */
+        #contact {
+            padding-top: 15vh;
+        }
+
         /* --- Footer --- */
         footer {
             padding: 6rem 2rem;
@@ -397,7 +402,7 @@
 
     <header>
         <div class="hero-bg-container" id="heroIcon">
-            <!-- パスを bounce/icon2.jpg に固定 -->
+            <!-- フォルダ名を Bounces/ に修正しました -->
             <img src="Bounces/icon2.jpg" alt="SHOE Background Icon" class="hero-bg-image hero-animate" onerror="this.style.display='none'; document.getElementById('svg-fallback').style.display='block';">
             <svg id="svg-fallback" class="hero-animate" viewBox="0 0 200 200" style="display:none; width: 100%; height: auto; max-width: 350px; filter: drop-shadow(0 0 15px rgba(255,255,255,0.3));">
                 <path d="M 80,45 L 120,35" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none" />
@@ -407,7 +412,7 @@
         </div>
         
         <div class="hero-content">
-            <!-- パスを bounce/icon1.jpg に固定 -->
+            <!-- フォルダ名を Bounces/ 、拡張子を .jpg に修正しました -->
             <img src="Bounces/icon1.jpg" alt="SHOE Profile" class="profile-icon hero-animate delay-1" onerror="this.src='https://ui-avatars.com/api/?name=SH&background=050505&color=00e5ff&size=150'; this.onerror=null;">
             <h1 class="hero-title hero-animate delay-2">SHOE</h1>
             <p class="hero-furigana hero-animate delay-3">シュウ</p>
