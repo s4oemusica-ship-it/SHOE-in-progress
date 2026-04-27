@@ -103,9 +103,10 @@
             z-index: 10;
         }
 
+        /* icon2のコンテナ：位置を38%に上げてSHOEの上に配置 */
         .hero-bg-container {
             position: absolute;
-            top: 50%;
+            top: 38%; 
             left: 50%;
             transform: translate(-50%, -50%);
             width: 90%;
@@ -524,7 +525,6 @@
         const canvas = document.getElementById('trailCanvas');
         const ctx = canvas.getContext('2d');
         let points = [];
-        // 消えるスピードを速めるため、保持する点と寿命を短縮
         const MAX_POINTS = 50; 
         const MAX_AGE = 35;
 
