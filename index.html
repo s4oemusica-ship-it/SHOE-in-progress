@@ -30,7 +30,7 @@
             position: relative;
         }
 
-        /* --- 1. 背景：サムネイルを繋ぐダイナミックなカクカク線 --- */
+        /* --- 背景：サムネイルを繋ぐダイナミックな一本線 --- */
         #dynamicLineLayer {
             position: absolute;
             top: 0;
@@ -40,7 +40,7 @@
             z-index: 1;
         }
 
-        /* --- 2. 背景：マウス追従の発光線 (Canvas) --- */
+        /* --- 背景：マウス追従の発光線 (Canvas) --- */
         #trailCanvas {
             position: fixed;
             top: 0;
@@ -132,21 +132,18 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* 背景画像と被りすぎないように、少し上にずらす */
             margin-top: -10vh; 
         }
 
-        /* 新しく追加したプロフィールアイコンのスタイル */
         .profile-icon {
-            width: 120px; /* 少し大きめに */
+            width: 120px; 
             height: 120px;
             border-radius: 50%;
             object-fit: cover;
             margin-bottom: 2rem;
-            /* 背景から浮かせるための強力なシャドウとボーダー */
             border: 3px solid #111; 
             box-shadow: 0 0 0 2px var(--accent-color), 0 10px 30px rgba(0,0,0,0.8);
-            background-color: var(--bg-color); /* 画像の透け防止 */
+            background-color: var(--bg-color);
         }
 
         .hero-title {
@@ -221,7 +218,6 @@
             animation: fadeInDownNav 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
 
-        /* --- Hero Section Animation --- */
         @keyframes fadeInUpHero {
             from {
                 opacity: 0;
@@ -292,13 +288,6 @@
             letter-spacing: 0.1rem;
         }
 
-        .link-card p {
-            color: var(--secondary-color);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1rem;
-        }
-
         /* --- Video Timeline --- */
         .video-timeline {
             display: flex;
@@ -363,41 +352,6 @@
             backdrop-filter: blur(5px);
         }
 
-        .video-node:hover .video-overlay {
-            opacity: 1;
-        }
-
-        .video-info {
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .video-info h3 {
-            color: #fff;
-            font-size: 1.1rem;
-            letter-spacing: 0.1rem;
-            font-weight: 400;
-        }
-
-        .loading-text {
-            text-align: center;
-            color: var(--secondary-color);
-            font-size: 0.9rem;
-            letter-spacing: 0.2rem;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
-
-        /* --- Contact --- */
-        #contact {
-            padding-top: 15vh;
-        }
-
         /* --- Footer --- */
         footer {
             padding: 6rem 2rem;
@@ -410,22 +364,15 @@
 
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .hero-bg-container { width: 100%; }
-            .profile-icon { width: 100px; height: 100px; margin-bottom: 1.5rem; }
             .hero-title { font-size: 4.5rem; letter-spacing: 0.5rem; }
-            .hero-furigana { font-size: 1rem; letter-spacing: 0.5rem; margin-bottom: 1.5rem; margin-left: 0.5rem; }
-            .hero-subtitle { font-size: 0.95rem; letter-spacing: 0.1rem; padding: 0.5rem 1rem; }
-            section { padding: 8vh 1.5rem; }
-            .links-grid { grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 5rem; }
-            .link-card { padding: 2.5rem 1.5rem; }
-            .video-timeline { gap: 5rem; }
+            .hero-furigana { font-size: 1rem; letter-spacing: 0.5rem; }
+            .hero-subtitle { font-size: 0.95rem; }
             .video-node { width: 100%; align-self: center !important; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. 背景レイヤー: サムネイルを繋ぐダイナミックな一本線 -->
     <div id="dynamicLineLayer">
         <svg id="dynamicSvg" width="100%" height="100%">
             <defs>
@@ -433,18 +380,10 @@
                     <rect id="clipRect" x="0" y="0" width="100%" height="0" />
                 </clipPath>
             </defs>
-            <path id="dynamicPath" 
-                  fill="none" 
-                  stroke="var(--white-glow)" 
-                  stroke-width="1.5" 
-                  stroke-dasharray="20 5 40 2 10 10 50 5" 
-                  clip-path="url(#scrollClip)"
-                  filter="drop-shadow(0 0 8px var(--white-glow))"
-                  opacity="0.6" />
+            <path id="dynamicPath" fill="none" stroke="var(--white-glow)" stroke-width="1.5" stroke-dasharray="20 5 40 2 10 10 50 5" clip-path="url(#scrollClip)" filter="drop-shadow(0 0 8px var(--white-glow))" opacity="0.6" />
         </svg>
     </div>
     
-    <!-- 2. 背景レイヤー: マウス追従線 -->
     <canvas id="trailCanvas"></canvas>
 
     <nav>
@@ -458,8 +397,8 @@
 
     <header>
         <div class="hero-bg-container" id="heroIcon">
-            <!-- パスを Bounce/icon2.jpg に修正 -->
-            <img src="Bounce/icon2.jpg" alt="SHOE Background Icon" class="hero-bg-image hero-animate" onerror="this.style.display='none'; document.getElementById('svg-fallback').style.display='block';">
+            <!-- パスを bounce/icon2.jpg に固定 -->
+            <img src="bounce/icon2.jpg" alt="SHOE Background Icon" class="hero-bg-image hero-animate" onerror="this.style.display='none'; document.getElementById('svg-fallback').style.display='block';">
             <svg id="svg-fallback" class="hero-animate" viewBox="0 0 200 200" style="display:none; width: 100%; height: auto; max-width: 350px; filter: drop-shadow(0 0 15px rgba(255,255,255,0.3));">
                 <path d="M 80,45 L 120,35" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none" />
                 <polygon points="95,55 105,58 102,62" stroke="#fff" stroke-width="2" fill="none" stroke-linejoin="round" />
@@ -468,8 +407,8 @@
         </div>
         
         <div class="hero-content">
-            <!-- パスを Bounce/icon1.jpg に修正 -->
-            <img src="Bounce/icon1.jpg" alt="SHOE Profile" class="profile-icon hero-animate delay-1" onerror="this.src='https://ui-avatars.com/api/?name=SH&background=050505&color=00e5ff&size=150'; this.onerror=null;">
+            <!-- パスを bounce/icon1.jpg に固定 -->
+            <img src="bounce/icon1.jpg" alt="SHOE Profile" class="profile-icon hero-animate delay-1" onerror="this.src='https://ui-avatars.com/api/?name=SH&background=050505&color=00e5ff&size=150'; this.onerror=null;">
             <h1 class="hero-title hero-animate delay-2">SHOE</h1>
             <p class="hero-furigana hero-animate delay-3">シュウ</p>
             <p class="hero-subtitle hero-animate delay-4">𝗠𝘂𝘀𝗶𝗰 | 𝗩𝗼𝗰𝗮𝗹𝗼𝗶𝗱 | 𝗚𝘂𝗶𝘁𝗮𝗿</p>
@@ -480,261 +419,151 @@
         <p class="section-title reveal">Links & Channels</p>
         <div class="links-grid">
             <a href="https://www.youtube.com/@s4oe_s" target="_blank" class="link-card reveal">
-                <svg class="link-icon" viewBox="0 0 24 24">
-                    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path>
-                    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="var(--accent-color)" stroke="none"></polygon>
-                </svg>
+                <svg class="link-icon" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="var(--accent-color)" stroke="none"></polygon></svg>
                 <h3>YouTube</h3>
                 <p>Music Videos</p>
             </a>
             <a href="https://x.com/s4oes" target="_blank" class="link-card reveal">
-                <svg class="link-icon" viewBox="0 0 24 24">
-                    <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
-                    <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
-                </svg>
+                <svg class="link-icon" viewBox="0 0 24 24"><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg>
                 <h3>X (Twitter)</h3>
                 <p>Info & Updates</p>
             </a>
             <a href="https://piapro.jp/Kappa_mak1" target="_blank" class="link-card reveal">
-                <svg class="link-icon" viewBox="0 0 24 24">
-                    <path d="M9 18V5l12-2v13"></path>
-                    <circle cx="6" cy="18" r="3"></circle>
-                    <circle cx="18" cy="16" r="3"></circle>
-                </svg>
+                <svg class="link-icon" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
                 <h3>Piapro</h3>
                 <p>Off Vocals</p>
             </a>
             <a href="https://www.nicovideo.jp/user/127002094?ref=nicoiphone_other" target="_blank" class="link-card reveal">
-                <svg class="link-icon" viewBox="0 0 24 24">
-                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                    <path d="M16 2l-4 5-4-5"></path>
-                </svg>
+                <svg class="link-icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 2l-4 5-4-5"></path></svg>
                 <h3>Niconico</h3>
                 <p>Music Videos</p>
             </a>
         </div>
     </section>
 
-    <!-- 指定された動画3つを表示するセクション -->
     <section id="works">
         <p class="section-title reveal">Works</p>
         <div class="video-timeline" id="videoTimeline">
-            
-            <!-- 1つ目の動画 -->
             <div class="video-node left reveal js-connect-node">
                 <a href="https://youtu.be/VFsz1KJcJRo" target="_blank">
                     <img src="https://img.youtube.com/vi/VFsz1KJcJRo/maxresdefault.jpg" alt="君の季節 / 初音ミク" onerror="this.src='https://img.youtube.com/vi/VFsz1KJcJRo/hqdefault.jpg'">
                     <div class="video-overlay">▶ PLAY ON YOUTUBE</div>
                 </a>
-                <div class="video-info">
-                    <h3>君の季節 / 初音ミク</h3>
-                </div>
+                <div class="video-info"><h3>君の季節 / 初音ミク</h3></div>
             </div>
-
-            <!-- 2つ目の動画 -->
             <div class="video-node right reveal js-connect-node">
                 <a href="https://youtu.be/f-_JKZV1h8E" target="_blank">
                     <img src="https://img.youtube.com/vi/f-_JKZV1h8E/maxresdefault.jpg" alt="Music Video" onerror="this.src='https://img.youtube.com/vi/f-_JKZV1h8E/hqdefault.jpg'">
                     <div class="video-overlay">▶ PLAY ON YOUTUBE</div>
                 </a>
-                <div class="video-info">
-                    <h3>Music Video</h3>
-                </div>
+                <div class="video-info"><h3>君の季節 / 初音ミク (Self Cover)</h3></div>
             </div>
-
-            <!-- 3つ目の動画 -->
             <div class="video-node left reveal js-connect-node">
                 <a href="https://youtu.be/CATNhi5-nfk" target="_blank">
                     <img src="https://img.youtube.com/vi/CATNhi5-nfk/maxresdefault.jpg" alt="Music Video" onerror="this.src='https://img.youtube.com/vi/CATNhi5-nfk/hqdefault.jpg'">
                     <div class="video-overlay">▶ PLAY ON YOUTUBE</div>
                 </a>
-                <div class="video-info">
-                    <h3>Music Video</h3>
-                </div>
+                <div class="video-info"><h3>愛を、お返しします / 初音ミク</h3></div>
             </div>
-
         </div>
     </section>
 
     <section id="contact">
         <div style="text-align: center;" class="reveal">
             <p class="section-title">Contact & Commissions</p>
-            
             <div style="margin-bottom: 5rem;">
-                <p style="color: var(--secondary-color); margin-bottom: 1.5rem; font-size: 0.9rem;">ご依頼・ご相談については、以下のnoteをご確認ください。</p>
+                <p style="color: #888; margin-bottom: 1.5rem; font-size: 0.9rem;">ご依頼・ご相談については、以下のnoteをご確認ください。</p>
                 <a href="https://note.com/s4oe_s/n/ndb72a9393e0d?app_launch=false" target="_blank" style="display: inline-flex; align-items: center; gap: 0.8rem; padding: 1.2rem 2.5rem; border: 1px solid var(--accent-color); color: #fff; text-decoration: none; border-radius: 4px; transition: var(--transition); background: rgba(0,229,255,0.05);">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
                     依頼について (note)
                 </a>
             </div>
-
-            <p style="color: var(--secondary-color); margin-bottom: 1rem; font-size: 0.9rem;">Email もしくは XのDMまで</p>
+            <p style="color: #888; margin-bottom: 1rem; font-size: 0.9rem;">Email もしくは XのDMまで</p>
             <a href="mailto:s4oe.musica@gmail.com" style="font-size: clamp(1.2rem, 4vw, 2rem); color: #fff; text-decoration: none; border-bottom: 2px solid var(--accent-color); padding-bottom: 0.5rem; letter-spacing: 0.1rem; transition: var(--transition);">s4oe.musica@gmail.com</a>
         </div>
     </section>
 
-    <footer>
-        <p>&copy; 2024 SHOE. VOCALOP / GUITARIST</p>
-    </footer>
+    <footer><p>&copy; 2024 SHOE. VOCALOP / GUITARIST</p></footer>
 
-    <!-- ==============================================
-         ここから JavaScript
-    =============================================== -->
     <script>
-        // --- 1. サムネイルを繋ぐダイナミック線の生成 ---
         function updateDynamicLine() {
             const path = document.getElementById('dynamicPath');
             const layer = document.getElementById('dynamicLineLayer');
-            
             const docHeight = document.documentElement.scrollHeight;
             layer.style.height = docHeight + 'px';
-            
             const nodes = document.querySelectorAll('.js-connect-node');
             const heroIcon = document.getElementById('heroIcon');
-
-            // 始点：トップの背景画像の中心
-            let prevX = window.innerWidth / 2;
-            let prevY = 0;
+            let prevX = window.innerWidth / 2, prevY = 0;
             if (heroIcon) {
-                const heroRect = heroIcon.getBoundingClientRect();
-                prevX = heroRect.left + heroRect.width / 2;
-                prevY = heroRect.top + window.scrollY + heroRect.height / 2;
+                const rect = heroIcon.getBoundingClientRect();
+                prevX = rect.left + rect.width / 2;
+                prevY = rect.top + window.scrollY + rect.height / 2;
             }
-
             let d = `M ${prevX},0 L ${prevX},${prevY} `;
-
-            // 各サムネイルの中心点を取得して直角に繋ぐ
             nodes.forEach(node => {
                 const rect = node.getBoundingClientRect();
-                const targetX = rect.left + rect.width / 2;
-                const targetY = rect.top + window.scrollY + rect.height / 2;
-
-                const midY = prevY + (targetY - prevY) / 2;
-                d += `L ${prevX},${midY} L ${targetX},${midY} L ${targetX},${targetY} `;
-                
-                prevX = targetX;
-                prevY = targetY;
+                const tx = rect.left + rect.width / 2, ty = rect.top + window.scrollY + rect.height / 2;
+                const midY = prevY + (ty - prevY) / 2;
+                d += `L ${prevX},${midY} L ${tx},${midY} L ${tx},${ty} `;
+                prevX = tx; prevY = ty;
             });
-
-            // 最後に画面下部まで直線を引く
             d += `L ${prevX},${docHeight}`;
             path.setAttribute('d', d);
         }
 
-        window.addEventListener('resize', updateDynamicLine);
-
-        // --- スクロール連動処理 ---
-        const clipRect = document.getElementById('clipRect');
-        const trailLayer = document.getElementById('trailCanvas');
-        const dynamicLayer = document.getElementById('dynamicLineLayer');
-        const contactSection = document.getElementById('contact');
-
         window.addEventListener('scroll', () => {
             const docHeight = document.documentElement.scrollHeight;
             const scrollY = window.scrollY;
-            
-            // 背景線の描画アニメーション
-            const scrollPercent = scrollY / (docHeight - window.innerHeight);
-            clipRect.setAttribute('height', scrollPercent * docHeight);
-
-            // Contactセクションでのフェードアウト
-            if (contactSection) {
-                const rect = contactSection.getBoundingClientRect();
-                let fadeOpacity = 1;
-                if (rect.top < window.innerHeight) {
-                    fadeOpacity = rect.top / window.innerHeight;
-                    fadeOpacity = Math.max(0, fadeOpacity);
-                }
-                dynamicLayer.style.opacity = fadeOpacity;
-                trailLayer.style.opacity = fadeOpacity;
+            document.getElementById('clipRect').setAttribute('height', (scrollY / (docHeight - window.innerHeight)) * docHeight);
+            const contact = document.getElementById('contact');
+            if (contact) {
+                const rect = contact.getBoundingClientRect();
+                const op = rect.top < window.innerHeight ? Math.max(0, rect.top / window.innerHeight) : 1;
+                document.getElementById('dynamicLineLayer').style.opacity = op;
+                document.getElementById('trailCanvas').style.opacity = op;
             }
         });
 
-        // --- 2. マウス追従 発光一本線 (Canvas) ---
         const canvas = document.getElementById('trailCanvas');
         const ctx = canvas.getContext('2d');
         let points = [];
-        const MAX_POINTS = 15;
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        function addPoint(x, y) {
-            points.push({ x, y, age: 0 });
-            if (points.length > MAX_POINTS) points.shift();
-        }
-
-        window.addEventListener('mousemove', e => addPoint(e.clientX, e.clientY));
-        window.addEventListener('touchmove', e => {
-            const touch = e.touches[0];
-            addPoint(touch.clientX, touch.clientY);
-        });
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; updateDynamicLine(); });
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        window.addEventListener('mousemove', e => { points.push({x:e.clientX, y:e.clientY, a:0}); if(points.length>15) points.shift(); });
 
         function animateTrail() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            if (points.length > 1) {
-                ctx.beginPath();
-                ctx.moveTo(points[0].x, points[0].y);
-                
-                ctx.strokeStyle = '#ffffff';
-                ctx.shadowColor = '#ffffff';
-                ctx.shadowBlur = 20;
-                ctx.lineWidth = 1.5;
-                ctx.lineCap = 'round';
-                ctx.lineJoin = 'round';
-
-                for (let i = 1; i < points.length; i++) {
-                    ctx.lineTo(points[i].x, points[i].y);
-                }
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            if(points.length>1){
+                ctx.beginPath(); ctx.moveTo(points[0].x, points[0].y);
+                ctx.strokeStyle='#fff'; ctx.shadowColor='#fff'; ctx.shadowBlur=20; ctx.lineWidth=1.5;
+                for(let i=1;i<points.length;i++) ctx.lineTo(points[i].x, points[i].y);
                 ctx.stroke();
             }
-            
-            if (points.length > 0) {
-                points.forEach(p => p.age++);
-                if (points[0].age > 10) points.shift();
-            }
+            points.forEach(p=>p.a++);
+            if(points.length>0 && points[0].a>10) points.shift();
             requestAnimationFrame(animateTrail);
         }
         animateTrail();
 
-        // --- スムーズスクロールとリロード時の位置キープ対策 ---
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', function(e) {
                 e.preventDefault();
-                const targetId = this.getAttribute('href');
-                
-                if (targetId === '#') {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    history.pushState(null, null, window.location.pathname); // ハッシュをクリア
-                } else {
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({ behavior: 'smooth' });
-                        // URLを更新して、リロード時にもその位置を維持する
-                        history.pushState(null, null, targetId); 
-                    }
+                const id = this.getAttribute('href');
+                if(id==='#') window.scrollTo({top:0, behavior:'smooth'});
+                else {
+                    const el = document.querySelector(id);
+                    if(el) { el.scrollIntoView({behavior:'smooth'}); history.pushState(null,null,id); }
                 }
             });
         });
 
-        // --- 3. 初期化 ---
-        const reveals = document.querySelectorAll('.reveal');
         const checkReveal = () => {
-            reveals.forEach(el => {
-                if (el.getBoundingClientRect().top < window.innerHeight * 0.9) el.classList.add('active');
+            document.querySelectorAll('.reveal').forEach(el => {
+                if(el.getBoundingClientRect().top < window.innerHeight * 0.9) el.classList.add('active');
             });
         };
         window.addEventListener('scroll', checkReveal);
-        
-        window.onload = () => {
-            checkReveal();
-            // 描画を確実にするため、少し遅らせて線を計算
-            setTimeout(updateDynamicLine, 300);
-        };
+        window.onload = () => { checkReveal(); setTimeout(updateDynamicLine, 300); };
     </script>
 </body>
 </html>
